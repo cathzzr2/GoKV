@@ -12,7 +12,7 @@ import (
 var db *bitcask.DB
 
 func init() {
-	// 初始化 DB 实例
+	// initialize DB entity
 	var err error
 	options := bitcask.DefaultOptions
 	dir, _ := os.MkdirTemp("", "bitcask-go-http")
@@ -110,13 +110,13 @@ func handleStat(writer http.ResponseWriter, request *http.Request) {
 }
 
 func main() {
-	// 注册处理方法
+	// registration
 	http.HandleFunc("/bitcask/put", handlePut)
 	http.HandleFunc("/bitcask/get", handleGet)
 	http.HandleFunc("/bitcask/delete", handleDelete)
 	http.HandleFunc("/bitcask/listkeys", handleListKeys)
 	http.HandleFunc("/bitcask/stat", handleStat)
 
-	// 启动 HTTP 服务
+	// start HTTP service
 	_ = http.ListenAndServe("localhost:8080", nil)
 }

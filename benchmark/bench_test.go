@@ -13,7 +13,7 @@ import (
 var db *bitcask.DB
 
 func init() {
-	// 初始化用于基准测试的存储引擎
+	// Initialize the storage engine for benchmarking
 	options := bitcask.DefaultOptions
 	dir, _ := os.MkdirTemp("", "bitcask-go-bench")
 	options.DirPath = dir

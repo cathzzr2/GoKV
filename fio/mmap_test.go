@@ -14,13 +14,13 @@ func TestMMap_Read(t *testing.T) {
 	mmapIO, err := NewMMapIOManager(path)
 	assert.Nil(t, err)
 
-	// 文件为空
+	// null file
 	b1 := make([]byte, 10)
 	n1, err := mmapIO.Read(b1, 0)
 	assert.Equal(t, 0, n1)
 	assert.Equal(t, io.EOF, err)
 
-	// 有文件的情况
+	// when there is a file
 	fio, err := NewFileIOManager(path)
 	assert.Nil(t, err)
 	_, err = fio.Write([]byte("aa"))

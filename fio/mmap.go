@@ -5,12 +5,12 @@ import (
 	"os"
 )
 
-// MMap IO，内存文件映射
+// MMap IO
 type MMap struct {
 	readerAt *mmap.ReaderAt
 }
 
-// NewMMapIOManager 初始化 MMap IO
+// NewMMapIOManager - initialize MMap IO
 func NewMMapIOManager(fileName string) (*MMap, error) {
 	_, err := os.OpenFile(fileName, os.O_CREATE, DataFilePerm)
 	if err != nil {

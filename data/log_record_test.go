@@ -7,7 +7,7 @@ import (
 )
 
 func TestEncodeLogRecord(t *testing.T) {
-	// 正常情况
+	// common case
 	rec1 := &LogRecord{
 		Key:   []byte("name"),
 		Value: []byte("bitcask-go"),
@@ -17,7 +17,7 @@ func TestEncodeLogRecord(t *testing.T) {
 	assert.NotNil(t, res1)
 	assert.Greater(t, n1, int64(5))
 
-	// value 为空的情况
+	// value is null
 	rec2 := &LogRecord{
 		Key:  []byte("name"),
 		Type: LogRecordNormal,
@@ -26,7 +26,7 @@ func TestEncodeLogRecord(t *testing.T) {
 	assert.NotNil(t, res2)
 	assert.Greater(t, n2, int64(5))
 
-	// 对 Deleted 情况的测试
+	// test for Deleted
 	rec3 := &LogRecord{
 		Key:   []byte("name"),
 		Value: []byte("bitcask-go"),

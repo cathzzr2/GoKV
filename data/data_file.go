@@ -20,32 +20,32 @@ const (
 	SeqNoFileName         = "seq-no"
 )
 
-// DataFile 数据文件
+// DataFile
 type DataFile struct {
 	FileId    uint32        // 文件id
 	WriteOff  int64         // 文件写到了哪个位置
 	IoManager fio.IOManager // io 读写管理
 }
 
-// OpenDataFile 打开新的数据文件
+// OpenDataFile 
 func OpenDataFile(dirPath string, fileId uint32, ioType fio.FileIOType) (*DataFile, error) {
 	fileName := GetDataFileName(dirPath, fileId)
 	return newDataFile(fileName, fileId, ioType)
 }
 
-// OpenHintFile 打开 Hint 索引文件
+// OpenHintFile 
 func OpenHintFile(dirPath string) (*DataFile, error) {
 	fileName := filepath.Join(dirPath, HintFileName)
 	return newDataFile(fileName, 0, fio.StandardFIO)
 }
 
-// OpenMergeFinishedFile 打开标识 merge 完成的文件
+// OpenMergeFinishedFile 
 func OpenMergeFinishedFile(dirPath string) (*DataFile, error) {
 	fileName := filepath.Join(dirPath, MergeFinishedFileName)
 	return newDataFile(fileName, 0, fio.StandardFIO)
 }
 
-// OpenSeqNoFile 存储事务序列号的文件
+// OpenSeqNoFile (files storing sequence numbers)
 func OpenSeqNoFile(dirPath string) (*DataFile, error) {
 	fileName := filepath.Join(dirPath, SeqNoFileName)
 	return newDataFile(fileName, 0, fio.StandardFIO)
@@ -56,7 +56,7 @@ func GetDataFileName(dirPath string, fileId uint32) string {
 }
 
 func newDataFile(fileName string, fileId uint32, ioType fio.FileIOType) (*DataFile, error) {
-	// 初始化 IOManager 管理器接口
+	// initialize IOManager management tool
 	ioManager, err := fio.NewIOManager(fileName, ioType)
 	if err != nil {
 		return nil, err
@@ -68,27 +68,27 @@ func newDataFile(fileName string, fileId uint32, ioType fio.FileIOType) (*DataFi
 	}, nil
 }
 
-// ReadLogRecord 根据 offset 从数据文件中读取 LogRecord
+// ReadLogRecord based on offset from DataFile
 func (df *DataFile) ReadLogRecord(offset int64) (*LogRecord, int64, error) {
 	fileSize, err := df.IoManager.Size()
 	if err != nil {
 		return nil, 0, err
 	}
 
-	// 如果读取的最大 header 长度已经超过了文件的长度，则只需要读取到文件的末尾即可
+	// If the max(len(header)) > len(file), then only read til the end of file
 	var headerBytes int64 = maxLogRecordHeaderSize
 	if offset+maxLogRecordHeaderSize > fileSize {
 		headerBytes = fileSize - offset
 	}
 
-	// 读取 Header 信息
+	// read Header info
 	headerBuf, err := df.readNBytes(headerBytes, offset)
 	if err != nil {
 		return nil, 0, err
 	}
 
 	header, headerSize := decodeLogRecordHeader(headerBuf)
-	// 下面的两个条件表示读取到了文件末尾，直接返回 EOF 错误
+	// If reach the end of file, return EOF error
 	if header == nil {
 		return nil, 0, io.EOF
 	}
@@ -96,23 +96,23 @@ func (df *DataFile) ReadLogRecord(offset int64) (*LogRecord, int64, error) {
 		return nil, 0, io.EOF
 	}
 
-	// 取出对应的 key 和 value 的长度
+	// fetch the size of key and value
 	keySize, valueSize := int64(header.keySize), int64(header.valueSize)
 	var recordSize = headerSize + keySize + valueSize
 
 	logRecord := &LogRecord{Type: header.recordType}
-	// 开始读取用户实际存储的 key/value 数据
+	// read users' actual key & value data
 	if keySize > 0 || valueSize > 0 {
 		kvBuf, err := df.readNBytes(keySize+valueSize, offset+headerSize)
 		if err != nil {
 			return nil, 0, err
 		}
-		//	解出 key 和 value
+		//load key & value
 		logRecord.Key = kvBuf[:keySize]
 		logRecord.Value = kvBuf[keySize:]
 	}
 
-	// 校验数据的有效性
+	// validate data
 	crc := getLogRecordCRC(logRecord, headerBuf[crc32.Size:headerSize])
 	if crc != header.crc {
 		return nil, 0, ErrInvalidCRC
@@ -129,7 +129,7 @@ func (df *DataFile) Write(buf []byte) error {
 	return nil
 }
 
-// WriteHintRecord 写入索引信息到 hint 文件中
+// WriteHintRecord into files
 func (df *DataFile) WriteHintRecord(key []byte, pos *LogRecordPos) error {
 	record := &LogRecord{
 		Key:   key,

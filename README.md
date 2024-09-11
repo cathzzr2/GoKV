@@ -18,7 +18,6 @@ GoKV is a high-performance key-value store implemented in Go leveraging [bitcask
 - **User-Friendly HTTP API:** GoKV exposes an intuitive API that supports Create, Read, Update, and Delete operations through standard HTTP protocols, allowing developers to interact with the database effortlessly.
 
 ## Installation:
-'''
+```bash
 git clone https://github.com/cathzzr2/GoKV.git
 cd GoKV
-'''

@@ -14,12 +14,18 @@ GoKV is a high-performance key-value store implemented in Go, leveraging the [bi
 
 ## File Structure
 `/benchmark`: Contains benchmarking scripts for performance evaluation.
+
 `/data`: Stores database files.
+
 `/examples`: Includes example implementations of GoKV.
-/http: Defines HTTP routes and CRUD handlers.
-/index: Manages key indexing for faster lookups.
-/redis: Implements Redis protocol compatibility.
-/utils: Utility functions to support core features.
+
+`/http`: Defines HTTP routes and CRUD handlers.
+
+`/index`: Manages key indexing for faster lookups.
+
+`/redis`: Implements Redis protocol compatibility.
+
+`/utils`: Utility functions to support core features.
 
 ## API Endpoints
 ### POST /kv

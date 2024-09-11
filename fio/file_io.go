@@ -2,12 +2,12 @@ package fio
 
 import "os"
 
-// FileIO 标准系统文件 IO
+// FileIO - standard system
 type FileIO struct {
-	fd *os.File // 系统文件描述符
+	fd *os.File // file description
 }
 
-// NewFileIOManager 初始化标准文件 IO
+// NewFileIOManager initialize standard file IO
 func NewFileIOManager(fileName string) (*FileIO, error) {
 	fd, err := os.OpenFile(
 		fileName,

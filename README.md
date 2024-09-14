@@ -27,42 +27,6 @@ GoKV is a high-performance key-value store implemented in Go, leveraging the [bi
 
 `/utils`: Utility functions to support core features.
 
-## API Endpoints
-### POST /kv
-Creates a new key-value pair.
-Request Body:
-```bash
-{
-  "key": "exampleKey",
-  "value": "exampleValue"
-}
-```
-### GET /kv/
-Retrieves the value for a specific key.
-Response (200 - OK):
-```bash
-{
-  "key": "exampleKey",
-  "value": "exampleValue"
-}
-```
-### DELETE /kv/
-Deletes the specified key-value pair.
-Response (200 - OK):
-```bash
-{
-  "status": "deleted",
-  "key": "exampleKey"
-}
-```
-### PUT /kv/
-Updates the value for a given key.
-Request Body:
-```bash
-{
-  "value": "newExampleValue"
-}
-```
 ## Installation:
 ```bash
 git clone https://github.com/cathzzr2/GoKV.git

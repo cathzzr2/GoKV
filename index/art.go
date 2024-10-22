@@ -8,14 +8,14 @@ import (
 	"sync"
 )
 
-// AdaptiveRadixTree 自适应基数树索引
-// 主要封装了 https://github.com/plar/go-adaptive-radix-tree 库
+// Adaptive Radix Tree 
+// https://github.com/plar/go-adaptive-radix-tree 
 type AdaptiveRadixTree struct {
 	tree goart.Tree
 	lock *sync.RWMutex
 }
 
-// NewART 初始化自适应基数树索引
+// NewART initialize ART
 func NewART() *AdaptiveRadixTree {
 	return &AdaptiveRadixTree{
 		tree: goart.New(),
@@ -70,11 +70,11 @@ func (art *AdaptiveRadixTree) Close() error {
 	return nil
 }
 
-// Art 索引迭代器
+// Art iterator
 type artIterator struct {
-	currIndex int     // 当前遍历的下标位置
-	reverse   bool    // 是否是反向遍历
-	values    []*Item // key+位置索引信息
+	currIndex int     
+	reverse   bool    
+	values    []*Item // key+ location 
 }
 
 func newARTIterator(tree goart.Tree, reverse bool) *artIterator {

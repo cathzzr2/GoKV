@@ -1,6 +1,6 @@
 # GoKV 📊
 
-GoKV is a high-performance key-value store implemented in Go, leveraging the [bitcask](https://medium.com/@arpitbhayani/bitcask-a-log-structured-fast-kv-store-c6c728a9536b) model. It is designed for simplicity, speed, and flexibility, with optimization strategies to enhance data retrieval and storage. GoKV supports Redis data structures and offers a user-friendly HTTP API for interaction.
+GoKV is a tiny key-value storage database in Go, leveraging the [bitcask](https://medium.com/@arpitbhayani/bitcask-a-log-structured-fast-kv-store-c6c728a9536b) model. It is designed for simplicity, speed, and flexibility, with optimization strategies to enhance data retrieval and storage. GoKV supports Redis data structures and offers a user-friendly HTTP API for interaction.
 
 <img width="300" alt="Screenshot 2024-09-07 at 22 34 12" src="https://github.com/user-attachments/assets/009ba424-68f4-4ba8-8fee-20c972a150ad">
 
